@@ -1,7 +1,5 @@
 ---
 description: Analyze feature requirements before implementation. Use when starting new features, reviewing specs, breaking down tasks, or estimating complexity.
-mode: subagent
-model: claude-opus-4-5-20251101
 tools:
   read: true
   glob: true
@@ -244,8 +242,10 @@ Before marking analysis complete, verify:
 - **Given** [precondition] **When** [action] **Then** [outcome]
 
 ## Technicals
-- [ ] [Technical aspect to solve]
-- [ ] [Technical aspect to solve]
+- [API endpoint/contract details]
+- [Existing components/hooks to reuse]
+- [Patterns from codebase to follow]
+- [External dependencies or integrations]
 ```
 
 ---
