@@ -167,11 +167,19 @@ Watch for these patterns:
 
 | Scenario | Skills |
 |----------|--------|
-| React components | `react-use-state`, `react-use-callback`, `react-key-prop` |
-| TypeScript types | `typescript-interface-vs-type`, `typescript-advanced-types` |
-| Project structure | `project-structure`, `naming-cheatsheet` |
-| Architecture decisions | `code-architecture-wrong-abstraction` |
-| Styling | `css-container-queries`, `code-architecture-tailwind-v4-best-practices` |
+| **Requirements & User Stories** | `user-story-fundamentals`, `jobs-to-be-done`, `theme-epic-story` |
+| **Problem Analysis** | `five-whys`, `hypothesis-tree`, `graph-thinking` |
+| **Product Decisions** | `making-product-decisions`, `what-not-to-do-as-product-manager` |
+| **UX & Cognitive Design** | `cognitive-load`, `hicks-law`, `progressive-disclosure` |
+| **Behavior Design** | `fogg-behavior-model`, `hooked-model`, `curiosity-gap`, `self-initiated-triggers` |
+| **Trust & Conversion** | `trust-psychology`, `social-proof-psychology`, `visual-cues-cta-psychology` |
+| **Psychology Patterns** | `cognitive-biases`, `cognitive-fluency-psychology`, `halo-effect-psychology`, `loss-aversion-psychology`, `status-quo-bias` |
+| **React Components** | `react-use-state`, `react-use-callback`, `react-key-prop`, `react-use-client-boundary` |
+| **TypeScript Types** | `typescript-interface-vs-type`, `typescript-advanced-types`, `typescript-satisfies-operator` |
+| **Project Structure** | `project-structure`, `naming-cheatsheet` |
+| **Architecture Decisions** | `code-architecture-wrong-abstraction` |
+| **Styling** | `css-container-queries`, `code-architecture-tailwind-v4-best-practices` |
+| **Business & Planning** | `business-model-canvas`, `kanban` |
 
 **External documentation:**
 - Use `webfetch` to pull API docs, library references, or specs when requirements reference external services
