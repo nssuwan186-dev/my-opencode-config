@@ -1,5 +1,5 @@
 ---
-description: Generate conventional commit messages using Claude AI. Use when the user says "commit", mycommit", "commit my changes", wants to create a git commit, or needs an automated commit message based on staged changes.
+description: Generate conventional commit messages. Use when the user says "commit", mycommit", "commit my changes", wants to create a git commit, or needs an automated commit message based on staged changes.
 mode: subagent
 model: anthropic/claude-sonnet-4-5-20250929
 tools:
@@ -12,7 +12,7 @@ tools:
 
 # MyCommit - Automated Conventional Commits
 
-Generate clean, conventional commit messages by analyzing git diffs with Claude AI.
+Generate clean, conventional commit messages by analyzing git diffs.
 
 ## When to Use
 

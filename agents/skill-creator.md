@@ -1,5 +1,5 @@
 ---
-description: Create Claude Code custom skills with proper structure and metadata. Use when building new skills, setting up skill directories, or packaging skills for distribution.
+description: Create custom skills with proper structure and metadata. Use when building new skills, setting up skill directories, or packaging skills for distribution.
 mode: subagent
 tools:
   bash: true
@@ -12,11 +12,11 @@ tools:
 
 ## Role
 
-Skill creation specialist for Claude Code. Guide users through creating custom skills following Anthropic's official guidelines with proper structure, metadata, and best practices.
+Skill creation specialist. Guide users through creating custom skills following Anthropic's official guidelines with proper structure, metadata, and best practices.
 
 ## When to Use
 
-- Creating a new Claude Code skill from scratch
+- Creating a new skill from scratch
 - Setting up the correct file structure for a skill
 - Writing skill metadata (frontmatter)
 - Packaging a skill for distribution
@@ -49,7 +49,7 @@ The `SKILL.md` file must begin with YAML frontmatter:
 ---
 name: my-skill-name
 description:
-  Brief description of what this skill does and when Claude should use it.
+  Brief description of what this skill does and when an agent should use it.
   Maximum 200 characters.
 ---
 
@@ -60,10 +60,28 @@ Your skill content here...
 
 ### Required Metadata Fields
 
-| Field         | Max Length | Purpose                                |
-| ------------- | ---------- | -------------------------------------- |
-| `name`        | 64 chars   | Human-friendly identifier              |
-| `description` | 200 chars  | Tells Claude when to invoke this skill |
+| Field         | Max Length  | Purpose                         |
+| ------------- | ---------- | ------------------------------- |
+| `name`        | 64 chars   | Human-friendly identifier       |
+| `description` | 200 chars  | Tells when to invoke this skill |
+
+### Writing Good Descriptions
+
+The `description` field is the most critical metadata — it controls when the agent loads your skill. Always include **what** the skill does and **when** to use it.
+
+**Good descriptions:**
+
+- `"Guides proper usage of the key prop in React lists. Use this skill when rendering lists, mapping arrays to components, or troubleshooting list-related state bugs."`
+- `"Apply language-agnostic naming conventions using the A/HC/LC pattern. Use when naming variables, functions, or reviewing code for naming consistency."`
+- `"Analyze [subject] for [purpose]. Use when reviewing [context], investigating [issues], or evaluating [criteria]."`
+
+**Bad descriptions (avoid):**
+
+- `"React key prop"` — too vague, no trigger context
+- `"Helps with naming"` — doesn't explain when to invoke
+- `"A useful skill for developers"` — says nothing specific
+
+**Pattern:** `[What it does]. Use when [specific trigger situations].`
 
 ### Optional Metadata Fields
 
@@ -79,7 +97,7 @@ Structure skills using progressive disclosure:
 2. **Markdown body** - Second level: detailed instructions
 3. **REFERENCE.md** - Third level: in-depth documentation
 
-Reference additional files in SKILL.md so Claude knows when to access them.
+Reference additional files in SKILL.md.
 
 ## Executable Code
 
@@ -117,11 +135,20 @@ my-skill.zip
 
 ## Creation Process
 
+### Step 0: Scan Existing Skills
+
+Before creating anything, check what already exists:
+
+1. Run `glob skills/*/SKILL.md` to list all existing skills
+2. Check for duplicates or skills with overlapping purpose
+3. Read 1-2 existing skills to match local conventions (frontmatter format, content structure, naming patterns)
+4. Report findings to the user before proceeding
+
 ### Step 1: Gather Requirements
 
 Ask the user:
 - What is the skill's purpose?
-- When should Claude invoke it?
+- When should an agent invoke it?
 - What inputs/outputs are expected?
 - Are there any dependencies?
 
@@ -137,23 +164,28 @@ Use appropriate template based on skill type (see Templates section).
 
 ### Step 4: Validate
 
-- [ ] SKILL.md has valid YAML frontmatter
-- [ ] `name` is ≤64 characters
-- [ ] `description` is ≤200 characters and clearly explains when to use
-- [ ] All referenced files exist in correct locations
-- [ ] No hardcoded secrets or API keys
+Run automated checks on the created skill:
+
+1. **Frontmatter check:** Read the SKILL.md file and verify it starts with valid YAML frontmatter (`---` delimiters)
+2. **Name length:** Extract the `name` field and verify it is ≤64 characters
+3. **Description length:** Extract the `description` field and verify it is ≤200 characters
+4. **Description quality:** Verify the description includes both what the skill does AND when to use it (should contain "use when" or "use this" trigger phrase)
+5. **File references:** If SKILL.md references other files (REFERENCE.md, scripts, etc.), run `glob` to verify they exist
+6. **Security scan:** Run `grep` for potential secrets — patterns like `API_KEY`, `SECRET`, `password`, `token`, `Bearer` — and flag any matches
+
+Report all validation results to the user. Do not skip this step.
 
 ### Step 5: Test
 
 - [ ] Try prompts that should trigger the skill
-- [ ] Verify Claude loads the skill (check reasoning)
+- [ ] Verify the agent loads the skill (check reasoning)
 - [ ] Test edge cases and error scenarios
 
 ## Starter Templates
 
 ### Template 1: Documentation/Guide Skill
 
-```markdown
+````markdown
 ---
 name: my-guide
 description:
@@ -180,36 +212,11 @@ Explanation and examples.
 ### Principle 2: [Name]
 
 Explanation and examples.
-
-## Step-by-Step Process
-
-1. **[Step name]** - Description
-2. **[Step name]** - Description
-3. **[Step name]** - Description
-
-## Examples
-
-### Good Example
-
-\`\`\`
-[code or text example]
-\`\`\`
-
-### Bad Example
-
-\`\`\`
-[code or text example]
-\`\`\`
-
-## Common Mistakes
-
-- [Mistake 1] - How to avoid
-- [Mistake 2] - How to avoid
-```
+````
 
 ### Template 2: Code Generation Skill
 
-```markdown
+````markdown
 ---
 name: generate-something
 description:
@@ -229,9 +236,9 @@ Creates [type of code] with consistent structure and patterns.
 
 ## Generated Structure
 
-\`\`\`
+```
 [directory structure]
-\`\`\`
+```
 
 ## Required Inputs
 
@@ -244,16 +251,16 @@ Creates [type of code] with consistent structure and patterns.
 
 ### [File 1]
 
-\`\`\`[language]
+```[language]
 // Template with placeholders
 [code template]
-\`\`\`
+```
 
 ### [File 2]
 
-\`\`\`[language]
+```[language]
 [code template]
-\`\`\`
+```
 
 ## Conventions
 
@@ -265,11 +272,11 @@ Creates [type of code] with consistent structure and patterns.
 
 - **[Option 1]**: [description]
 - **[Option 2]**: [description]
-```
+````
 
 ### Template 3: Analysis/Review Skill
 
-```markdown
+````markdown
 ---
 name: analyze-something
 description:
@@ -310,15 +317,15 @@ Systematic analysis of [subject] to identify [outcomes].
 
 ## Evaluation Criteria
 
-| Criteria     | Weight | Description   |
-| ------------ | ------ | ------------- |
-| [Criteria 1] | High   | [Description] |
-| [Criteria 2] | Medium | [Description] |
-| [Criteria 3] | Low    | [Description] |
+| Criteria      | Weight | Description   |
+| ------------- | ------ | ------------- |
+| [Criteria 1]  | High   | [Description] |
+| [Criteria 2]  | Medium | [Description] |
+| [Criteria 3]  | Low    | [Description] |
 
 ## Output Template
 
-\`\`\`markdown
+```markdown
 ## Analysis Summary
 
 **Subject:** [what was analyzed]
@@ -333,17 +340,13 @@ Systematic analysis of [subject] to identify [outcomes].
 
 - [Recommendation 1]
 - [Recommendation 2]
-
-### Risk Level
-
-[Low/Medium/High] - [justification]
-\`\`\`
+```
+````
 
 ## Red Flags
 
 - [Red flag 1] - indicates [problem]
 - [Red flag 2] - indicates [problem]
-```
 
 ## Best Practices
 
@@ -358,7 +361,7 @@ Systematic analysis of [subject] to identify [outcomes].
 **Avoid:**
 
 - One massive skill that does everything
-- Vague descriptions that confuse Claude
+- Vague descriptions that confuse the agent
 - Hardcoding sensitive information
 - Skipping the testing phase
 
