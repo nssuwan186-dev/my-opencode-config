@@ -57,6 +57,7 @@ match the problem type:
 - Structured decomposition (e.g., hypothesis-tree)
 - User motivation (e.g., jobs-to-be-done)
 - System relationships (e.g., graph-thinking)
+- Strategic planning (e.g., pest-analysis)
 - Decision making, planning, psychology patterns
 
 ### 2b. Apply Skills (Think in Parallel)
