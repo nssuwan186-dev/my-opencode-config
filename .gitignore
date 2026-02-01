@@ -18,3 +18,4 @@ package.json
 *.log
 
 .env
+kimidev/
